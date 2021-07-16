@@ -5,6 +5,7 @@
 		"recca0120.vscode-phpunit",
 		"eamodio.gitlens",
 		"mhutchie.git-graph",
-		"junstyle.php-cs-fixer"
+		"junstyle.php-cs-fixer",
+		"janbn.git-last-commit-message"
     ]
 }

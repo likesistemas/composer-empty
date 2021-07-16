@@ -15,6 +15,6 @@ services:
       - CODECOMMIT_PASSWORD=$CODECOMMIT_PASSWORD
       - URL_SENTRY=${URL_SENTRY}
     volumes:
-      - ./:/var/www/
+      - ./:/var/www/public/
     networks:
       - github

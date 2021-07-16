@@ -4,13 +4,14 @@
 	],
 	"service": "php",
   	"shutdownAction": "none",
-	"workspaceFolder": "/var/www/",
+	"workspaceFolder": "/var/www/public/",
 	"extensions": [
 		"bmewburn.vscode-intelephense-client",
 		"hbenl.vscode-test-explorer",
 		"recca0120.vscode-phpunit",
 		"eamodio.gitlens",
 		"mhutchie.git-graph",
-		"junstyle.php-cs-fixer"
+		"junstyle.php-cs-fixer",
+		"janbn.git-last-commit-message"
 	]
 }
