@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+
+jobs:
+  
+  test:
+    strategy:
+      matrix:
+        PHP: [56, 73, 74, 80]
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Prepare code
+        env:
+          PHP_VERSION: ${{ matrix.PHP }}
+        run: |
+          touch .env
+          echo "CODECOMMIT_USER=${{ secrets.CODECOMMIT_USER }}" >> .env
+          echo "CODECOMMIT_PASSWORD=${{ secrets.CODECOMMIT_PASSWORD }}" >> .env
+          echo "GITHUB_TOKEN=${{ secrets.GH_TOKEN }}" >> .env
+          echo "PHP_VERSION=$PHP_VERSION" >> .env
+
+      - name: Run tests
+        run: |
+          docker-compose up -d
+          echo $(docker run -t --network github jwilder/dockerize -wait tcp://php:9000 -timeout 120s)
+          docker-compose ps
+          docker-compose logs php
+          docker-compose exec -T php composer test
+          docker-compose down
+          
