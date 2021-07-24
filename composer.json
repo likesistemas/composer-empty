@@ -27,5 +27,8 @@
             "email": "dev@likesistemas.com.br",
             "homepage": "https://www.likesistemas.com.br/"
         }
-    ]
+    ],
+    "scripts": {
+        "test": "phpunit"
+    }
 }
