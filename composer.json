@@ -29,6 +29,9 @@
         }
     ],
     "scripts": {
-        "test": "phpunit"
+        "fix": "php-cs-fixer fix",
+        "fix:ci": "php-cs-fixer fix --dry-run --stop-on-violation",
+        "test": "phpunit",
+        "analyse": "phpstan analyse"
     }
 }
