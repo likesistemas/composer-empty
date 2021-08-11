@@ -28,12 +28,23 @@ jobs:
           echo "GITHUB_TOKEN=${{ secrets.GH_TOKEN }}" >> .env
           echo "PHP_VERSION=$PHP_VERSION" >> .env
 
-      - name: Run tests
+      - name: Prepare environment
         run: |
           docker-compose up -d
           echo $(docker run -t --network github jwilder/dockerize -wait tcp://php:9000 -timeout 120s)
           docker-compose ps
           docker-compose logs php
+
+      - name: Run PHP Unit
+        run: |
           docker-compose exec -T php composer test
-          docker-compose down
-          
+
+      - name: Run PHP Stan
+        if: matrix.PHP != '56'
+        run: |
+          docker-compose exec -T php composer analyse
+
+      - name: Run PHP CS Fixer
+        if: matrix.PHP != '56'
+        run: |
+          docker-compose exec -T php composer fix:ci

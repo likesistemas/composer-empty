@@ -1,4 +1,5 @@
 {
+	"name": "like/composer-empty",
 	"dockerComposeFile": [
 		"../docker-compose.yml"
 	],
