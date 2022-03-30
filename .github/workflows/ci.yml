@@ -35,6 +35,11 @@ jobs:
           docker-compose ps
           docker-compose logs php
 
+      - name: Install PHP Stan
+        if: matrix.PHP != '56'
+        run: |
+          docker-compose exec -T php composer require phpstan/phpstan --dev
+
       - name: Run PHP Unit
         run: |
           docker-compose exec -T php composer test
