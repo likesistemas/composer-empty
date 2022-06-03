@@ -1,7 +1,7 @@
 {
     "name": "likesistemas/nomedalib",
     "type": "library",
-    "description": "Descriçãoo da biblioteca.",
+    "description": "Descrição da biblioteca.",
     "repositories": [
         {"type": "composer", "url": "https://composer.likesistemas.com.br/"}
     ],

@@ -13,7 +13,6 @@ services:
       - GITHUB_TOKEN=$GITHUB_TOKEN
       - CODECOMMIT_USER=$CODECOMMIT_USER
       - CODECOMMIT_PASSWORD=$CODECOMMIT_PASSWORD
-      - URL_SENTRY=${URL_SENTRY}
     volumes:
       - ./:/var/www/public/
     networks:
