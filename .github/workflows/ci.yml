@@ -7,13 +7,17 @@ on:
 
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   
   test:
     strategy:
       matrix:
         PHP: [56, 73, 74, 80, 81]
-    runs-on: ubuntu-latest
+    runs-on: php-ci
 
     steps:
       - uses: actions/checkout@v2
@@ -26,28 +30,40 @@ jobs:
           echo "GITHUB_TOKEN=${{ secrets.GH_TOKEN }}" >> .env
           echo "PHP_VERSION=$PHP_VERSION" >> .env
 
-      - name: Prepare environment
+      - name: Up environment
         run: |
-          docker-compose up -d
-          echo $(docker run -t --network github jwilder/dockerize -wait tcp://php:9000 -timeout 120s)
-          docker-compose ps
-          docker-compose logs php
+          docker compose up -d
+
+      - name: Wait environment
+        run: |
+          echo $(docker compose -f docker-compose.wait.yml run --rm wait)
+
+      - name: Environment logs
+        run: |
+          docker compose ps
+          docker compose logs php
 
       - name: Install PHP Stan
         if: matrix.PHP != '56'
         run: |
-          docker-compose exec -T php composer require phpstan/phpstan --dev
+          docker compose exec -T php composer require phpstan/phpstan --dev
 
       - name: Run PHP Unit
         run: |
-          docker-compose exec -T php composer test
+          docker compose exec -T php composer test
 
       - name: Run PHP Stan
         if: matrix.PHP != '56'
         run: |
-          docker-compose exec -T php composer analyse
+          docker compose exec -T php composer analyse
 
       - name: Run PHP CS Fixer
         if: matrix.PHP != '56'
         run: |
-          docker-compose exec -T php composer fix:ci
+          docker compose exec -T php composer fix:ci
+      
+      - name: Desligando ambiente
+        if: ${{ always() }}
+        run: |
+          docker compose exec -T php rm -Rf vendor/ .env
+          docker compose down --remove-orphans
