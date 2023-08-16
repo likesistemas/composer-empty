@@ -17,7 +17,7 @@ jobs:
     strategy:
       matrix:
         PHP: [56, 73, 74, 80, 81]
-    runs-on: php-ci
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
