@@ -16,11 +16,11 @@ jobs:
   test:
     strategy:
       matrix:
-        PHP: [56, 74, 80, 81]
+        PHP: [56, 74, 80, 81, 82, 83]
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Prepare code
         env:
@@ -42,11 +42,6 @@ jobs:
         run: |
           docker compose ps
           docker compose logs php
-
-      - name: Install PHP Stan
-        if: matrix.PHP != '56'
-        run: |
-          docker compose exec -T php composer require phpstan/phpstan --dev
 
       - name: Run PHP Unit
         run: |

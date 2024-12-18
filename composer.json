@@ -32,6 +32,9 @@
         "fix": "php-cs-fixer fix",
         "fix:ci": "php-cs-fixer fix --dry-run --stop-on-violation",
         "test": "phpunit",
-        "analyse": "phpstan analyse"
+        "analyse": "phpstan analyse",
+        "analyse:baseline": "phpstan analyse --generate-baseline",
+        "refactor": "rector",
+        "refactor:ci": "rector --dry-run"
     }
 }
